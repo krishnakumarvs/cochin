@@ -1,38 +1,23 @@
-var http = require('http');
-var fs = require("fs");
+var express = require('express');
+var app = express();
 
-http.createServer(function(request, response) {
+// set the port of our application
+// process.env.PORT lets the port be set by Heroku
+var port = process.env.PORT || 8080;
 
-	if(request.url === "/index"){
-		sendFileContent(response, "index.html", "text/html");
-	}
-	else if(request.url === "/"){
-		response.writeHead(200, {'Content-Type': 'text/html'});
-		response.write('<b>Hey there!</b><br /><br />This is the default response. Requested URL is: ' + request.url);
-	}
-	else if(/^\/[a-zA-Z0-9\/]*.js$/.test(request.url.toString())){
-		sendFileContent(response, request.url.toString().substring(1), "text/javascript");
-	}
-	else if(/^\/[a-zA-Z0-9\/]*.css$/.test(request.url.toString())){
-		sendFileContent(response, request.url.toString().substring(1), "text/css");
-	}
-	else{
-		console.log("Requested URL is: " + request.url);
-		response.end();
-	}
-}).listen(4200);
+// set the view engine to ejs
+app.set('view engine', 'ejs');
 
-function sendFileContent(response, fileName, contentType){
-	fs.readFile(fileName, function(err, data){
-		if(err){
-			response.writeHead(404);
-			response.write("Not Found!");
-		}
-		else{
-			response.writeHead(200, {'Content-Type': contentType});
-			response.write(data);
-		}
-		response.end();
-	});
-}
+// make express look in the public directory for assets (css/js/img)
+app.use(express.static(__dirname + '/public'));
 
+// set the home page route
+app.get('/', function(req, res) {
+
+	// ejs render automatically looks in the views folder
+	res.render('index');
+});
+
+app.listen(port, function() {
+	console.log('Our app is running on http://localhost:' + port);
+});
