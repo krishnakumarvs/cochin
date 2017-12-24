@@ -1,12 +1,17 @@
 {
-  "name": "node-sample",
-  "description": "Our sample Node to Heroku app",
-  "main": "server.js",
+  "name": "node-using-express-generator",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "start": "node server.js"
+    "start": "node ./bin/www"
   },
   "dependencies": {
-    "ejs": "~1.0.0",
-    "express": "~4.9.8"
+    "body-parser": "~1.18.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "ejs": "~2.5.7",
+    "express": "~4.15.5",
+    "morgan": "~1.9.0",
+    "serve-favicon": "~2.4.5"
   }
 }
